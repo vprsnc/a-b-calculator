@@ -13,6 +13,7 @@ ui <- fluidPage(
   fluidRow(
     sidebarPanel(
       h4('Input your data according to ->'),
+      h6('Or use the dummy data, just click "Iterate"')
 
       textInput(inputId = "prior_alpha" , label = "Prior alpha: ","3"),
       textInput(inputId = "prior_beta"  , label = "Prior beta: ", "7"),
