@@ -1,12 +1,9 @@
 library(shiny)
-library(shinythemes)
 library(plotly)
 library(ggplot2)
 
 
 ui <- fluidPage(
-
-  theme = shinytheme("flatly"),
 
   titlePanel("Bayesian A/B test calculator"),
 
@@ -137,7 +134,7 @@ server <- function(input, output, session){
 
       ### Monte-Carlo Hist
 
-      n.trials <- 100000
+      n.trials <- 10000
 
       a.samples <- rbeta(n.trials,
                          data.a$alpha + prior.alpha,
@@ -146,12 +143,12 @@ server <- function(input, output, session){
                          data.b$alpha + prior.alpha,
                          data.b$beta + prior.beta)
 
-      monte_data <- data.frame(iter = seq(1, 100000), ratio = b.samples/a.samples)
+      monte_data <- data.frame(iter = seq(1, 10000), ratio = b.samples/a.samples)
 
       b_superior <- sum(b.samples > a.samples) / n.trials
       b_septxt <- paste0(b_superior * 100, "% samples")
-      b_sup.alpha <- b_superior * 100000
-      b_sup.beta <- (1 - b_superior) * 100000
+      b_sup.alpha <- b_superior * 10000
+      b_sup.beta <- (1 - b_superior) * 10000
       l_conf <- qbeta(0.025, b_sup.alpha, b_sup.beta)
       u_conf <- qbeta(0.975, b_sup.alpha, b_sup.beta)
 
@@ -203,8 +200,8 @@ server <- function(input, output, session){
       xs_q <- seq(0.01, 0.99, by=0.001)
       output$quantile <- renderPlotly({
         plot_ly(monte_data, x = xs_q,
-                y = qbeta(xs_q, b_superior * 100000,
-                                (1-b_superior) * 100000),
+                y = qbeta(xs_q, b_superior * 10000,
+                                (1-b_superior) * 10000),
                 type = "scatter", mode = "line")
 
       }) # renderPlotly 4
