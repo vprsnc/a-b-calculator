@@ -5,7 +5,9 @@ library(ggplot2)
 
 ui <- fluidPage(
 
-  titlePanel("Bayesian A/B test calculator"),
+  includeCSS("./styles.css"),
+
+  h1("Bayesian A/B test calculator"),
 
   fluidRow(
     sidebarPanel(
@@ -192,8 +194,7 @@ server <- function(input, output, session){
         ggplotly(ggplot(monte_data, aes(ratio)) +
           stat_ecdf(geom = "line", col = "steelblue") +
           xlab('B times better than A') +
-          ylab('Probability density') +
-          theme_light())
+          ylab('Probability density'))
 
       }) # renderPlotly 3
 
